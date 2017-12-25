@@ -192,6 +192,23 @@ MarsServer_BINARY_DIR:STATIC=/Users/chan/ClionProjects/MarsServer/cmake-build-de
 //Value Computed by CMake
 MarsServer_SOURCE_DIR:STATIC=/Users/chan/ClionProjects/MarsServer
 
+//Path where debug 3rdparty OpenCV dependencies are located
+OpenCV_3RDPARTY_LIB_DIR_DBG:PATH=/usr/local/share/OpenCV/3rdparty/lib
+
+//Path where release 3rdparty OpenCV dependencies are located
+OpenCV_3RDPARTY_LIB_DIR_OPT:PATH=/usr/local/share/OpenCV/3rdparty/lib
+
+OpenCV_CONFIG_PATH:FILEPATH=/usr/local/share/OpenCV
+
+//The directory containing a CMake configuration file for OpenCV.
+OpenCV_DIR:PATH=/usr/local/share/OpenCV
+
+//Path where debug OpenCV libraries are located
+OpenCV_LIB_DIR_DBG:PATH=
+
+//Path where release OpenCV libraries are located
+OpenCV_LIB_DIR_OPT:PATH=
+
 //Path to a program.
 ProcessorCount_cmd_sysctl:FILEPATH=/usr/sbin/sysctl
 
@@ -333,6 +350,16 @@ CMAKE_STRIP-ADVANCED:INTERNAL=1
 CMAKE_UNAME:INTERNAL=/usr/bin/uname
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: OpenCV_3RDPARTY_LIB_DIR_DBG
+OpenCV_3RDPARTY_LIB_DIR_DBG-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: OpenCV_3RDPARTY_LIB_DIR_OPT
+OpenCV_3RDPARTY_LIB_DIR_OPT-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: OpenCV_CONFIG_PATH
+OpenCV_CONFIG_PATH-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: OpenCV_LIB_DIR_DBG
+OpenCV_LIB_DIR_DBG-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: OpenCV_LIB_DIR_OPT
+OpenCV_LIB_DIR_OPT-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: ProcessorCount_cmd_sysctl
 ProcessorCount_cmd_sysctl-ADVANCED:INTERNAL=1
 

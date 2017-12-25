@@ -90,6 +90,25 @@ MarsServer_EXTERNAL_OBJECTS =
 
 MarsServer: CMakeFiles/MarsServer.dir/main.cpp.o
 MarsServer: CMakeFiles/MarsServer.dir/build.make
+MarsServer: /usr/local/lib/libopencv_videostab.3.0.0.dylib
+MarsServer: /usr/local/lib/libopencv_superres.3.0.0.dylib
+MarsServer: /usr/local/lib/libopencv_stitching.3.0.0.dylib
+MarsServer: /usr/local/lib/libopencv_shape.3.0.0.dylib
+MarsServer: /usr/local/lib/libopencv_photo.3.0.0.dylib
+MarsServer: /usr/local/lib/libopencv_objdetect.3.0.0.dylib
+MarsServer: /usr/local/lib/libopencv_hal.a
+MarsServer: /usr/local/lib/libopencv_calib3d.3.0.0.dylib
+MarsServer: /usr/local/lib/libopencv_features2d.3.0.0.dylib
+MarsServer: /usr/local/lib/libopencv_ml.3.0.0.dylib
+MarsServer: /usr/local/lib/libopencv_highgui.3.0.0.dylib
+MarsServer: /usr/local/lib/libopencv_videoio.3.0.0.dylib
+MarsServer: /usr/local/lib/libopencv_imgcodecs.3.0.0.dylib
+MarsServer: /usr/local/lib/libopencv_flann.3.0.0.dylib
+MarsServer: /usr/local/lib/libopencv_video.3.0.0.dylib
+MarsServer: /usr/local/lib/libopencv_imgproc.3.0.0.dylib
+MarsServer: /usr/local/lib/libopencv_core.3.0.0.dylib
+MarsServer: /usr/local/lib/libopencv_hal.a
+MarsServer: /usr/local/share/OpenCV/3rdparty/lib/libippicv.a
 MarsServer: CMakeFiles/MarsServer.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/chan/ClionProjects/MarsServer/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable MarsServer"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/MarsServer.dir/link.txt --verbose=$(VERBOSE)
