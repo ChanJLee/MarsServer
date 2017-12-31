@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/MarsServer.dir/main.cpp.o"
+  "CMakeFiles/MarsServer.dir/MarsServer.cpp.o"
   "MarsServer.pdb"
   "MarsServer"
 )

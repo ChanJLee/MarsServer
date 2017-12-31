@@ -84,6 +84,12 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/Users/chan/ClionProjects/MarsServer/MarsServer.cpp">
+			<Option target="MarsServer"/>
+		</Unit>
+		<Unit filename="/Users/chan/ClionProjects/MarsServer/MarsServer.h">
+			<Option target="MarsServer"/>
+		</Unit>
 		<Unit filename="/Users/chan/ClionProjects/MarsServer/main.cpp">
 			<Option target="MarsServer"/>
 		</Unit>

@@ -66,7 +66,7 @@ CMAKE_BINARY_DIR = /Users/chan/ClionProjects/MarsServer/cmake-build-debug
 CMakeFiles/MarsServer.dir/all:
 	$(MAKE) -f CMakeFiles/MarsServer.dir/build.make CMakeFiles/MarsServer.dir/depend
 	$(MAKE) -f CMakeFiles/MarsServer.dir/build.make CMakeFiles/MarsServer.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/chan/ClionProjects/MarsServer/cmake-build-debug/CMakeFiles --progress-num=1,2 "Built target MarsServer"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/chan/ClionProjects/MarsServer/cmake-build-debug/CMakeFiles --progress-num=1,2,3 "Built target MarsServer"
 .PHONY : CMakeFiles/MarsServer.dir/all
 
 # Include target in all.
@@ -76,7 +76,7 @@ all: CMakeFiles/MarsServer.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/MarsServer.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/chan/ClionProjects/MarsServer/cmake-build-debug/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/chan/ClionProjects/MarsServer/cmake-build-debug/CMakeFiles 3
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/MarsServer.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/chan/ClionProjects/MarsServer/cmake-build-debug/CMakeFiles 0
 .PHONY : CMakeFiles/MarsServer.dir/rule

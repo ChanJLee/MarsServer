@@ -4,6 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
+  "/Users/chan/ClionProjects/MarsServer/MarsServer.cpp" "/Users/chan/ClionProjects/MarsServer/cmake-build-debug/CMakeFiles/MarsServer.dir/MarsServer.cpp.o"
   "/Users/chan/ClionProjects/MarsServer/main.cpp" "/Users/chan/ClionProjects/MarsServer/cmake-build-debug/CMakeFiles/MarsServer.dir/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "AppleClang")

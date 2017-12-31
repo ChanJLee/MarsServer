@@ -123,6 +123,33 @@ MarsServer/fast:
 	$(MAKE) -f CMakeFiles/MarsServer.dir/build.make CMakeFiles/MarsServer.dir/build
 .PHONY : MarsServer/fast
 
+MarsServer.o: MarsServer.cpp.o
+
+.PHONY : MarsServer.o
+
+# target to build an object file
+MarsServer.cpp.o:
+	$(MAKE) -f CMakeFiles/MarsServer.dir/build.make CMakeFiles/MarsServer.dir/MarsServer.cpp.o
+.PHONY : MarsServer.cpp.o
+
+MarsServer.i: MarsServer.cpp.i
+
+.PHONY : MarsServer.i
+
+# target to preprocess a source file
+MarsServer.cpp.i:
+	$(MAKE) -f CMakeFiles/MarsServer.dir/build.make CMakeFiles/MarsServer.dir/MarsServer.cpp.i
+.PHONY : MarsServer.cpp.i
+
+MarsServer.s: MarsServer.cpp.s
+
+.PHONY : MarsServer.s
+
+# target to generate assembly for a file
+MarsServer.cpp.s:
+	$(MAKE) -f CMakeFiles/MarsServer.dir/build.make CMakeFiles/MarsServer.dir/MarsServer.cpp.s
+.PHONY : MarsServer.cpp.s
+
 main.o: main.cpp.o
 
 .PHONY : main.o
@@ -159,6 +186,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... MarsServer"
+	@echo "... MarsServer.o"
+	@echo "... MarsServer.i"
+	@echo "... MarsServer.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
