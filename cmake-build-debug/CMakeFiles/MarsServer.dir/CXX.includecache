@@ -19,16 +19,20 @@ iostream
 -
 arpa/inet.h
 -
-signal.h
--
-memory.h
--
-stdlib.h
--
 unistd.h
+-
+thread
+-
+sstream
+-
+stddef.h
 -
 
 /Users/chan/ClionProjects/MarsServer/MarsServer.h
+cstdio
+-
+ios
+-
 
 /Users/chan/ClionProjects/MarsServer/main.cpp
 MarsServer.h
