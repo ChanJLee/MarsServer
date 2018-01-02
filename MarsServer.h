@@ -12,6 +12,16 @@ typedef int SocketServer;
 
 const int BUFFER_SIZE = 512;
 
+const size_t MAGIC_LEN = 5;
+
+const size_t HEADER_LEN = 12;
+
+const size_t TYPE_LEN = 2;
+
+const size_t PACKAGE_LEN = 10;
+
+const char MAGIC_HEADER[] = {0x05, 0x21, 0x05, 0x25, 0x00};
+
 class MarPackage
 {
 private:
@@ -35,7 +45,7 @@ public:
 private:
 	void sendMessageRunnable();
 	void readMessageRunnable();
-	void processData(const char *buffer, std::streamsize size);
+	void processData(const char *buffer, size_t size);
 	static void sigPipe(int signo);
 };
 

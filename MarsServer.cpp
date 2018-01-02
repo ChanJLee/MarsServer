@@ -115,35 +115,60 @@ void MarsServer::sendMessageRunnable()
 void MarsServer::readMessageRunnable()
 {
 	std::cout << "read message runnable" << std::endl;
-	ptrdiff_t size = 0;
+	ptrdiff_t segment_size = 0;
+
 	std::ostringstream os;
 	char buffer[BUFFER_SIZE];
-	size_t magic_header_len = 5;
-	size_t header_len = 6;
-	char magic_header[] = {0x05, 0x21, 0x05, 0x25, 0x00};
-	size_t package_size = 0;
-	int type = -1;
-	int len = -1;
 
-	while ((size = read(mCurrentSocketClient, buffer, BUFFER_SIZE)) >= 0) {
-		if (size >= magic_header_len + header_len) {
-			if (memcmp(buffer, magic_header, magic_header_len) == 0) {
-				char type_str[3] = {0};
-				memcpy(type_str, buffer + magic_header_len, 2);
+	size_t cached_len = 0;
 
-				type = atoi(type_str);
-				std::cout << "type: " << type << std::endl;
+	int current_type = -1;
+	int current_len = -1;
 
+	char type_str[TYPE_LEN + 1] = {0};
+	char len_str[PACKAGE_LEN + 1] = {0};
+	char *scan_buffer;
+
+	while ((segment_size = read(mCurrentSocketClient, buffer, BUFFER_SIZE)) >= 0) {
+		if (segment_size == 0) {
+			continue;
+		}
+
+		scan_buffer = buffer;
+		if (segment_size >= MAGIC_LEN + HEADER_LEN) {
+			if (memcmp(buffer, MAGIC_HEADER, MAGIC_LEN) == 0) {
+
+				// copy type str
+				memcpy(type_str, buffer + MAGIC_LEN, TYPE_LEN);
+				current_type = atoi(type_str);
+
+				memcpy(len_str, buffer + MAGIC_LEN + TYPE_LEN, PACKAGE_LEN);
+				current_len = atoi(len_str);
+
+				std::cout << "current type: " << current_type << " current len: " << current_len << std::endl;
+
+				// init buffer
+				os.clear();
+				cached_len = 0;
+				scan_buffer = buffer + (MAGIC_LEN + HEADER_LEN);
+				segment_size -= ((MAGIC_LEN + HEADER_LEN));
 			}
+		}
 
-			if (type < 0 || len < 0) {
-				continue;
-			}
+		if (current_type < 0 || current_len < 0 || segment_size == 0) {
+			continue;
+		}
+
+		os.write(scan_buffer, segment_size);
+		cached_len += segment_size;
+		if (cached_len >= current_len) {
+			const std::string &data = os.str();
+			processData(data.c_str(), (size_t) data.size);
 		}
 	}
 }
 
-void MarsServer::processData(const char *buffer, std::streamsize size)
+void MarsServer::processData(const char *buffer, size_t size)
 {
 	std::cout << buffer << std::endl;
 }
