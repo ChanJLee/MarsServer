@@ -27,6 +27,8 @@ sstream
 -
 stddef.h
 -
+sys/ioctl.h
+-
 
 /Users/chan/ClionProjects/MarsServer/MarsServer.h
 cstdio

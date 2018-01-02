@@ -10,10 +10,12 @@
 
 typedef int SocketServer;
 
-const int BUFFER_SIZE = 1024;
-class MarPackage {
+const int BUFFER_SIZE = 512;
+
+class MarPackage
+{
 private:
-	char* mBuffer;
+	char *mBuffer;
 	int mLen;
 public:
 	MarPackage(size_t mLen);
@@ -27,12 +29,13 @@ class MarsServer
 private:
 	int mCurrentSocketClient = -1;
 	SocketServer mSocketServer;
-	MarPackage* mPackage;
+	MarPackage *mPackage;
 public:
 	void start();
 private:
-	void processClient();
-	void processData(const char* buffer, std::streamsize size);
+	void sendMessageRunnable();
+	void readMessageRunnable();
+	void processData(const char *buffer, std::streamsize size);
 	static void sigPipe(int signo);
 };
 
