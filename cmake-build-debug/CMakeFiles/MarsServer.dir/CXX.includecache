@@ -27,13 +27,11 @@ sstream
 -
 stddef.h
 -
-sys/ioctl.h
+cstdlib
 -
 
 /Users/chan/ClionProjects/MarsServer/MarsServer.h
-cstdio
--
-ios
+string
 -
 
 /Users/chan/ClionProjects/MarsServer/main.cpp

@@ -12,7 +12,7 @@
 #include <thread>
 #include <sstream>
 #include <stddef.h>
-#include <sys/ioctl.h>
+#include <cstdlib>
 
 void MarsServer::start()
 {
@@ -77,40 +77,24 @@ void MarsServer::sigPipe(int sig)
 void MarsServer::sendMessageRunnable()
 {
 	std::cout << "send message runnable" << std::endl;
-	int arg;
+	char arg;
+	std::ostringstream os;
 	while (true) {
 		arg = std::cin.get();
-		std::cout << "input loop" << std::endl;
-		switch (arg) {
-			case 'a':
-			case 'A': std::cout << "input a" << std::endl;
-				break;
-			case 's':
-			case 'S': std::cout << "input s" << std::endl;
-				break;
-			case 'w':
-			case 'W': std::cout << "input w" << std::endl;
-				break;
-			case 'd':
-			case 'D': std::cout << "input d" << std::endl;
-				break;
+		if (arg != 'a' && arg != 'A' &&
+			arg != 'w' && arg != 'W' &&
+			arg != 's' && arg != 'S' &&
+			arg != 'd' && arg != 'D') {
+			continue;
 		}
+
+		os.clear();
+		os.write(MAGIC_HEADER, MAGIC_LEN);
+		os << "0" << TYPE_ACTION << "0000000001" << arg;
+		const std::string &data = os.str();
+		sendData(data);
 	}
 }
-
-//bool send_all(int socket, void *buffer, size_t length)
-//{
-//	char *ptr = (char*) buffer;
-//	while (length > 0)
-//	{
-//		int i = send(socket, ptr, length);
-//		if (i < 1) return false;
-//		ptr += i;
-//		length -= i;
-//	}
-//	return true;
-//}
-
 
 void MarsServer::readMessageRunnable()
 {
@@ -135,7 +119,7 @@ void MarsServer::readMessageRunnable()
 		}
 
 		scan_buffer = buffer;
-		if (segment_size >= MAGIC_LEN + HEADER_LEN) {
+		if (segment_size >= HEAD_LEN) {
 			if (memcmp(buffer, MAGIC_HEADER, MAGIC_LEN) == 0) {
 
 				// copy type str
@@ -150,8 +134,8 @@ void MarsServer::readMessageRunnable()
 				// init buffer
 				os.clear();
 				cached_len = 0;
-				scan_buffer = buffer + (MAGIC_LEN + HEADER_LEN);
-				segment_size -= ((MAGIC_LEN + HEADER_LEN));
+				scan_buffer = buffer + HEAD_LEN;
+				segment_size -= HEAD_LEN;
 			}
 		}
 
@@ -163,33 +147,23 @@ void MarsServer::readMessageRunnable()
 		cached_len += segment_size;
 		if (cached_len >= current_len) {
 			const std::string &data = os.str();
-			processData(data.c_str(), (size_t) data.size);
+			receiveData(data, current_type);
 		}
 	}
 }
 
-void MarsServer::processData(const char *buffer, size_t size)
+void MarsServer::receiveData(const std::string &data, int type)
 {
-	std::cout << buffer << std::endl;
+	std::cout << data << std::endl;
 }
 
-MarPackage::MarPackage(size_t mLen)
-	: mLen(mLen)
+void MarsServer::sendData(const std::string &data)
 {
-	mBuffer = new char[mLen];
-	memset(mBuffer, 0, mLen);
-}
-
-MarPackage::~MarPackage()
-{
-	delete mBuffer;
-}
-
-char *MarPackage::getBuffer() const
-{
-	return mBuffer;
-}
-int MarPackage::getLen() const
-{
-	return mLen;
+	const char *buffer = data.c_str();
+	size_t len = data.size();
+	while (len != 0) {
+		ssize_t sent_len = send(mCurrentSocketClient, buffer, data.size(), 0);
+		buffer += sent_len;
+		len -= sent_len;
+	}
 }
