@@ -119,7 +119,7 @@ void MarsServer::readMessageRunnable()
 		}
 
 		scan_buffer = buffer;
-		if (segment_size >= HEAD_LEN) {
+		if (segment_size >= HEADER_LEN) {
 			if (memcmp(buffer, MAGIC_HEADER, MAGIC_LEN) == 0) {
 
 				// copy type str
@@ -134,8 +134,8 @@ void MarsServer::readMessageRunnable()
 				// init buffer
 				os.clear();
 				cached_len = 0;
-				scan_buffer = buffer + HEAD_LEN;
-				segment_size -= HEAD_LEN;
+				scan_buffer = buffer + HEADER_LEN;
+				segment_size -= HEADER_LEN;
 			}
 		}
 

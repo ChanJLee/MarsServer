@@ -37,7 +37,7 @@ const size_t META_DATA_LEN = TYPE_LEN + PACKAGE_LEN;
 /*
  * head len
  * */
-const size_t HEAD_LEN = MAGIC_LEN + META_DATA_LEN;
+const size_t HEADER_LEN = MAGIC_LEN + META_DATA_LEN;
 
 /**
  * magic header
