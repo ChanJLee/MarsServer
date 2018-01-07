@@ -104,50 +104,40 @@ void MarsServer::readMessageRunnable()
 	std::ostringstream os;
 	char buffer[BUFFER_SIZE];
 
-	size_t cached_len = 0;
-
-	int current_type = -1;
-	int current_len = -1;
-
-	char type_str[TYPE_LEN + 1] = {0};
-	char len_str[PACKAGE_LEN + 1] = {0};
-	char *scan_buffer;
+	size_t current_len = 0;
+	char *segment;
+	MarsHeader marsHeader;
 
 	while ((segment_size = read(mCurrentSocketClient, buffer, BUFFER_SIZE)) >= 0) {
 		if (segment_size == 0) {
 			continue;
 		}
 
-		scan_buffer = buffer;
-		if (segment_size >= HEADER_LEN) {
+		segment = buffer;
+		if (segment_size >= sizeof(MarsHeader)) {
 			if (memcmp(buffer, MAGIC_HEADER, MAGIC_LEN) == 0) {
 
-				// copy type str
-				memcpy(type_str, buffer + MAGIC_LEN, TYPE_LEN);
-				current_type = atoi(type_str);
+				memcpy(&marsHeader, buffer, sizeof(MarsHeader));
 
-				memcpy(len_str, buffer + MAGIC_LEN + TYPE_LEN, PACKAGE_LEN);
-				current_len = atoi(len_str);
-
-				std::cout << "current type: " << current_type << " current len: " << current_len << std::endl;
+				std::cout << "current type: " << marsHeader.type << " current len: " << marsHeader.len << std::endl;
 
 				// init buffer
 				os.clear();
-				cached_len = 0;
-				scan_buffer = buffer + HEADER_LEN;
-				segment_size -= HEADER_LEN;
+				current_len = 0;
+				segment = buffer + sizeof(MarsHeader);
+				segment_size -= sizeof(MarsHeader);
 			}
 		}
 
-		if (current_type < 0 || current_len < 0 || segment_size == 0) {
+		if (segment_size == 0) {
 			continue;
 		}
 
-		os.write(scan_buffer, segment_size);
-		cached_len += segment_size;
-		if (cached_len >= current_len) {
+		os.write(segment, segment_size);
+		current_len += segment_size;
+		if (current_len >= marsHeader.len) {
 			const std::string &data = os.str();
-			receiveData(data, current_type);
+			receiveData(data, marsHeader.type);
 		}
 	}
 }

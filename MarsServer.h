@@ -19,36 +19,25 @@ const int BUFFER_SIZE = 512;
  * */
 const size_t MAGIC_LEN = 5;
 
-/*
- * type len, 2B
- * */
-const size_t TYPE_LEN = 2;
-
-/*
- * package len 10B
- * */
-const size_t PACKAGE_LEN = 10;
-
-/*
- * mata data len 12B
- * */
-const size_t META_DATA_LEN = TYPE_LEN + PACKAGE_LEN;
-
-/*
- * head len
- * */
-const size_t HEADER_LEN = MAGIC_LEN + META_DATA_LEN;
-
 /**
  * magic header
  * */
 const char MAGIC_HEADER[] = {0x05, 0x21, 0x05, 0x25, 0x00};
 
-const int TYPE_IMAGE = 1;
+const short TYPE_IMAGE = 1;
 
-const int TYPE_ACTION = 2;
+const short TYPE_ACTION = 2;
 
-const int TYPE_HEART_BEAT = 3;
+const short TYPE_HEART_BEAT = 3;
+
+const short TYPE_MESSAGE = 4;
+
+struct MarsHeader
+{
+	char header[MAGIC_LEN];
+	short type;
+	int len;
+};
 
 class MarsServer
 {
