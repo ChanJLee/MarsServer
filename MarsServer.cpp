@@ -11,13 +11,10 @@
 #include <unistd.h>
 #include <thread>
 #include <sstream>
-#include <stddef.h>
-#include <cstdlib>
+#include <cstddef>
 
 void MarsServer::start()
 {
-	std::cout << "start server" << std::endl;
-
 	mSocketServer = socket(AF_INET, SOCK_STREAM, 0);
 	if (mSocketServer < 0) {
 		std::cerr << "open socket failed" << std::endl;
@@ -89,7 +86,7 @@ void MarsServer::sendMessageRunnable()
 		}
 
 		os.clear();
-		os.write(MAGIC_HEADER, MAGIC_LEN);
+		os.write((const char *) MAGIC_HEADER, sizeof(MAGIC_HEADER));
 		os << "0" << TYPE_ACTION << "0000000001" << arg;
 		const std::string &data = os.str();
 		sendData(data);
@@ -98,14 +95,14 @@ void MarsServer::sendMessageRunnable()
 
 void MarsServer::readMessageRunnable()
 {
-	std::cout << "read message runnable" << std::endl;
+	std::cout << "read message runnable, size of Header " << sizeof(MarsHeader) << std::endl;
 	ptrdiff_t segment_size = 0;
 
 	std::ostringstream os;
-	char buffer[BUFFER_SIZE];
+	u1 buffer[BUFFER_SIZE];
 
 	size_t current_len = 0;
-	char *segment;
+	u1 *segment;
 	MarsHeader marsHeader;
 
 	while ((segment_size = read(mCurrentSocketClient, buffer, BUFFER_SIZE)) >= 0) {
@@ -115,7 +112,7 @@ void MarsServer::readMessageRunnable()
 
 		segment = buffer;
 		if (segment_size >= sizeof(MarsHeader)) {
-			if (memcmp(buffer, MAGIC_HEADER, MAGIC_LEN) == 0) {
+			if (memcmp(buffer, MAGIC_HEADER, sizeof(MAGIC_HEADER)) == 0) {
 
 				memcpy(&marsHeader, buffer, sizeof(MarsHeader));
 
@@ -129,11 +126,11 @@ void MarsServer::readMessageRunnable()
 			}
 		}
 
-		if (segment_size == 0) {
+		if (segment_size == 0 || marsHeader.type < 0 || marsHeader.len <= 0) {
 			continue;
 		}
 
-		os.write(segment, segment_size);
+		os.write((const char *) segment, segment_size);
 		current_len += segment_size;
 		if (current_len >= marsHeader.len) {
 			const std::string &data = os.str();

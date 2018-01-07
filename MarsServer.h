@@ -14,15 +14,12 @@ typedef int SocketServer;
  * */
 const int BUFFER_SIZE = 512;
 
-/*
- * magic number len 5B
- * */
-const size_t MAGIC_LEN = 5;
+typedef unsigned char u1;
 
 /**
  * magic header
  * */
-const char MAGIC_HEADER[] = {0x05, 0x21, 0x05, 0x25, 0x00};
+const u1 MAGIC_HEADER[] = {0x05, 0x21, 0x05, 0x25, 0x12, 0x12, 0x01, 0x18,};
 
 const short TYPE_IMAGE = 1;
 
@@ -34,9 +31,9 @@ const short TYPE_MESSAGE = 4;
 
 struct MarsHeader
 {
-	char header[MAGIC_LEN];
-	short type;
-	int len;
+	u1 header[sizeof(MAGIC_HEADER)];
+	short type = -1;
+	int len = -1;
 };
 
 class MarsServer
