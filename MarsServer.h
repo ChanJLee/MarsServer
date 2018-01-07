@@ -29,6 +29,9 @@ const short TYPE_HEART_BEAT = 3;
 
 const short TYPE_MESSAGE = 4;
 
+typedef unsigned int u4;
+typedef unsigned short u2;
+
 struct MarsHeader
 {
 	u1 header[sizeof(MAGIC_HEADER)];
@@ -46,8 +49,8 @@ public:
 private:
 	void sendMessageRunnable();
 	void readMessageRunnable();
-	void receiveData(const std::string &data, int type);
-	void sendData(const std::string &data);
+	void receiveData(u1* data, const MarsHeader& header);
+	void sendData(u1* data, size_t len);
 	static void sigPipe(int signo);
 };
 

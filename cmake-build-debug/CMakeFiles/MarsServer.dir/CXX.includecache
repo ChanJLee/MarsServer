@@ -23,9 +23,7 @@ unistd.h
 -
 thread
 -
-sstream
--
-cstddef
+stddef.h
 -
 
 /Users/chan/ClionProjects/MarsServer/MarsServer.h
