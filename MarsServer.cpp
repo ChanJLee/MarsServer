@@ -86,7 +86,7 @@ void MarsServer::sendMessageRunnable()
 			continue;
 		}
 
-		marsHeader.type = TYPE_ACTION;
+		marsHeader.type = TYPE_WINDOW_SIZE;
 		marsHeader.len = 1;
 		memcpy(data, &marsHeader, sizeof(MarsHeader));
 		data[sizeof(MarsHeader)] = arg;
