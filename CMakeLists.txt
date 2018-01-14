@@ -11,5 +11,5 @@ include_directories(${OpenCV_INCLUDE_DIRS})
 # Link your application with OpenCV libraries
 link_libraries(${OpenCV_LIBS})
 
-set(SOURCE_FILES main.cpp MarsServer.cpp MarsServer.h)
+set(SOURCE_FILES main.cpp MarsServer.cpp MarsServer.h protocal.h)
 add_executable(MarsServer ${SOURCE_FILES})

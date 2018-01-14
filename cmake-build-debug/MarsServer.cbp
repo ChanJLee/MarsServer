@@ -93,6 +93,9 @@
 		<Unit filename="/Users/chan/ClionProjects/MarsServer/main.cpp">
 			<Option target="MarsServer"/>
 		</Unit>
+		<Unit filename="/Users/chan/ClionProjects/MarsServer/protocal.h">
+			<Option target="MarsServer"/>
+		</Unit>
 		<Unit filename="/Users/chan/ClionProjects/MarsServer/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>

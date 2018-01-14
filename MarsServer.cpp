@@ -12,6 +12,10 @@
 #include <thread>
 #include <stddef.h>
 
+#include <opencv2/core.hpp>
+#include <opencv2/highgui.hpp>
+#include <opencv2/opencv.hpp>
+
 void MarsServer::start()
 {
 	mSocketServer = socket(AF_INET, SOCK_STREAM, 0);
@@ -148,7 +152,20 @@ void MarsServer::receiveData(u1 *data, const MarsHeader &header)
 	if (data == NULL) {
 		return;
 	}
-	std::cout << data << std::endl;
+
+	std::cout << "receive: " << header.type << std::endl;
+	if (header.type == TYPE_WINDOW_SIZE) {
+		if (mWindowSize == nullptr) {
+			mWindowSize = new WindowSize;
+		}
+		memcpy(mWindowSize, data, sizeof(WindowSize));
+	}
+	else if (header.type == TYPE_IMAGE) {
+		renderImage(data, header.len);
+	}
+	else if (header.type == TYPE_HEART_BEAT) {
+		std::cout << "heart beat" << std::endl;
+	}
 }
 
 void MarsServer::sendData(u1 *data, size_t len)
@@ -162,4 +179,45 @@ void MarsServer::sendData(u1 *data, size_t len)
 		data += sent_len;
 		len -= sent_len;
 	}
+}
+
+void MarsServer::renderImage(u1 *data, int len)
+{
+	if (mWindowSize == nullptr || mWindowSize->width * mWindowSize->height > len) {
+		return;
+	}
+
+	int width = mWindowSize->width;
+	int height = mWindowSize->height;
+
+	IplImage *yimg = cvCreateImageHeader(cvSize(width, height), IPL_DEPTH_8U, 1);
+	IplImage *uvimg = cvCreateImageHeader(cvSize(width / 2, height / 2),
+										  IPL_DEPTH_8U, 2);
+
+	cvSetData(yimg, data, width);
+	cvSetData(uvimg, data + width * height, width);
+
+	IplImage *fulluvimg = cvCreateImage(cvSize(width, height), IPL_DEPTH_8U, 2);
+	cvResize(uvimg, fulluvimg, CV_INTER_LINEAR);
+	cvReleaseImageHeader(&uvimg);
+
+	IplImage *uimg = cvCreateImage(cvSize(width, height), IPL_DEPTH_8U, 1);
+	IplImage *vimg = cvCreateImage(cvSize(width, height), IPL_DEPTH_8U, 1);
+	cvSplit(fulluvimg, uimg, vimg, NULL, NULL);
+	cvReleaseImage(&fulluvimg);
+
+	IplImage *ycrcbimage = cvCreateImage(cvSize(width, height), IPL_DEPTH_8U,
+										 3);
+	cvMerge(yimg, uimg, vimg, NULL, ycrcbimage);
+	cvReleaseImageHeader(&yimg);
+	cvReleaseImage(&uimg);
+	cvReleaseImage(&vimg);
+
+	IplImage *rgbimg = cvCreateImage(cvSize(width, height), IPL_DEPTH_8U, 3);
+	cvCvtColor(ycrcbimage, rgbimg, CV_YCrCb2BGR);
+	cvReleaseImage(&ycrcbimage);
+
+	cv::Mat imgx(cv::Size(width, height), 0);
+	cv::imshow("rgb", imgx);
+	cv::waitKey(0);
 }
